@@ -1,0 +1,7 @@
+# Pinned to what this was built and tested with.
+tensorflow==2.21.0
+tensorflow-model-optimization==0.8.1
+tf-keras==2.21.0
+numpy==2.5.4
+matplotlib==3.11.2
+pytest==9.2.0

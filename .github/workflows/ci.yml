@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Tests against the committed artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests
+        run: pytest tests -v
+      - name: Show the benchmark table
+        run: python -c "
+          import json;
+          r=json.load(open('evidence/results.json'))['variants'];
+          print(f\"{'variant':<17}{'KB':>9}{'gzip KB':>10}{'accuracy':>10}{'ms':>8}\");
+          [print(f\"{k:<17}{v['size_kb']:>9}{v['gzip_kb']:>10}{v['accuracy']:>10}{v['latency_ms']:>8.3f}\") for k,v in r.items()]"
+
+  smoke:
+    name: Pipeline runs end to end
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # A cut down run. Training is not bit reproducible across platforms, so
+      # this proves the pipeline executes rather than checking exact numbers.
+      - name: Train, compress and benchmark
+        run: |
+          python -m src.train_baseline --epochs 1
+          python -m src.compress --epochs 1
+          python -m src.benchmark --latency-runs 30 --eval-samples 200
+          python -m src.report
+
+      - name: Every variant was produced
+        run: |
+          python - <<'PY'
+          import json
+          expected = {"tflite_float32","control_float32","tflite_float16",
+                      "tflite_dynamic","tflite_int8","qat_int8","pruned","pruned_dynamic"}
+          got = set(json.load(open("evidence/results.json"))["variants"])
+          missing = expected - got
+          assert not missing, f"missing variants: {missing}"
+          print(f"all {len(expected)} variants produced")
+          PY

@@ -21,11 +21,15 @@ jobs:
       - name: Run tests
         run: pytest tests -v
       - name: Show the benchmark table
-        run: python -c "
-          import json;
-          r=json.load(open('evidence/results.json'))['variants'];
-          print(f\"{'variant':<17}{'KB':>9}{'gzip KB':>10}{'accuracy':>10}{'ms':>8}\");
-          [print(f\"{k:<17}{v['size_kb']:>9}{v['gzip_kb']:>10}{v['accuracy']:>10}{v['latency_ms']:>8.3f}\") for k,v in r.items()]"
+        run: |
+          python - <<'PY'
+          import json
+          r = json.load(open("evidence/results.json"))["variants"]
+          print(f"{'variant':<17}{'KB':>9}{'gzip KB':>10}{'accuracy':>10}{'ms':>8}")
+          for k, v in r.items():
+              print(f"{k:<17}{v['size_kb']:>9}{v['gzip_kb']:>10}"
+                    f"{v['accuracy']:>10}{v['latency_ms']:>8.3f}")
+          PY
 
   smoke:
     name: Pipeline runs end to end

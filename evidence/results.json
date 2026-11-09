@@ -1,0 +1,78 @@
+{
+  "eval_samples": 2000,
+  "latency_runs": 300,
+  "variants": {
+    "tflite_float32": {
+      "size_kb": 812.6,
+      "gzip_kb": 753.0,
+      "accuracy": 0.9055,
+      "latency_ms": 0.0454,
+      "size_vs_baseline": 1.0,
+      "gzip_vs_baseline": 1.0,
+      "accuracy_drop": 0.0
+    },
+    "control_float32": {
+      "size_kb": 812.6,
+      "gzip_kb": 753.3,
+      "accuracy": 0.9255,
+      "latency_ms": 0.0453,
+      "size_vs_baseline": 1.0,
+      "gzip_vs_baseline": 1.0,
+      "accuracy_drop": -0.02
+    },
+    "tflite_float16": {
+      "size_kb": 409.6,
+      "gzip_kb": 376.6,
+      "accuracy": 0.9055,
+      "latency_ms": 0.0455,
+      "size_vs_baseline": 0.504,
+      "gzip_vs_baseline": 0.5,
+      "accuracy_drop": 0.0
+    },
+    "tflite_dynamic": {
+      "size_kb": 209.4,
+      "gzip_kb": 187.5,
+      "accuracy": 0.906,
+      "latency_ms": 0.0255,
+      "size_vs_baseline": 0.258,
+      "gzip_vs_baseline": 0.249,
+      "accuracy_drop": -0.0005
+    },
+    "tflite_int8": {
+      "size_kb": 212.0,
+      "gzip_kb": 188.1,
+      "accuracy": 0.9085,
+      "latency_ms": 0.0164,
+      "size_vs_baseline": 0.261,
+      "gzip_vs_baseline": 0.25,
+      "accuracy_drop": -0.003
+    },
+    "qat_int8": {
+      "size_kb": 209.6,
+      "gzip_kb": 161.7,
+      "accuracy": 0.9215,
+      "latency_ms": 0.0163,
+      "size_vs_baseline": 0.258,
+      "gzip_vs_baseline": 0.215,
+      "accuracy_drop": -0.016
+    },
+    "pruned": {
+      "size_kb": 812.6,
+      "gzip_kb": 263.3,
+      "accuracy": 0.909,
+      "latency_ms": 0.0458,
+      "size_vs_baseline": 1.0,
+      "gzip_vs_baseline": 0.35,
+      "accuracy_drop": -0.0035
+    },
+    "pruned_dynamic": {
+      "size_kb": 209.4,
+      "gzip_kb": 79.0,
+      "accuracy": 0.9085,
+      "latency_ms": 0.0272,
+      "size_vs_baseline": 0.258,
+      "gzip_vs_baseline": 0.105,
+      "accuracy_drop": -0.003
+    }
+  }
+}

@@ -1,0 +1,23 @@
+Captured on 2026-11-08 21:52
+tensorflow 2.21.0 | tfmot 0.8.1
+python 3.12.13 | arm64 macOS
+
+============================================================
+ benchmark results
+============================================================
+variant                 KB   gzip KB  accuracy      ms
+tflite_float32       812.6     753.0    0.9055   0.045
+control_float32      812.6     753.3    0.9255   0.045
+tflite_float16       409.6     376.6    0.9055   0.045
+tflite_dynamic       209.4     187.5     0.906   0.025
+tflite_int8          212.0     188.1    0.9085   0.016
+qat_int8             209.6     161.7    0.9215   0.016
+pruned               812.6     263.3     0.909   0.046
+pruned_dynamic       209.4      79.0    0.9085   0.027
+[benchmark] wrote evidence/results.json
+
+============================================================
+ pytest
+============================================================
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+30 passed, 2 warnings in 3.40s
